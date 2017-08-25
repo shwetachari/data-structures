@@ -84,32 +84,81 @@ Graph.prototype.hasEdge = function(fromNode, toNode) {
   
   findFromNode(this);
   
-  var checkPathToNode = function(edge) {
-    if (edge.value === toNode) {
-      return true;
-    } else if (edge.edges.length === 0) {
-      return false;
-    } else {
-      return edge.edges.reduce(function(bool, item) {
-        return bool === true ? true : checkNode(item);
-      }, false);
-    }
+  // var checkPathToNode = function(edge) {
+  //   if (edge.value === toNode) {
+  //     return true;
+  //   } else if (edge.edges.length === 0) {
+  //     return false;
+  //   } else {
+  //     return edge.edges.reduce(function(bool, item) {
+  //       return bool === true ? true : checkPathToNode(item);
+  //     }, false);
+  //   }
+  // };
+
+  var checkEdgeToNode = function(edge) {
+    return edge.edges.reduce(function(bool, node) {
+      return bool === true ? true : node.value === toNode;
+    }, false);
   };
   
-  return checkPathToNode(fromNodeObj);
+  return checkEdgeToNode(fromNodeObj);
 
 };
 
 // Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function(fromNode, toNode) {
+  var newNode = new Graph();
+  newNode.value = toNode;
+
+  var findFromNodeAndAddToNode = function(edge) {
+    // if (edge.value === fromNode) {
+    //   newNode.edges.push(edge);
+    //   edge.edges.push(newNode);
+    // } else if (edge.edges.length > 0) {
+    //   edge.edges.forEach(function(item) {
+    //     findFromNodeAndAddToNode(item);
+    //   });
+    // }
+    
+  };
+  this.edges.forEach(function(node) {
+    if (node.value === fromNode) {
+      newNode.edges.push(node);
+      node.edges.push(newNode);
+    }
+  });
+  // findFromNodeAndAddToNode(this);
+
 };
 
 // Remove an edge between any two specified (by value) nodes.
 Graph.prototype.removeEdge = function(fromNode, toNode) {
+
+  var findFromNodeAndRemoveEdge = function(edge) {
+    if (edge.value === fromNode) {
+      edge.edges.forEach(function(node, index) {
+        if (node.value === toNode) {
+          edge.edges.splice(index, 1);
+        }
+      });
+    } else if (edge.edges.length > 0) {
+      edge.edges.forEach(function(item) {
+        findFromNodeAndRemoveEdge(item);
+      });
+    }
+  };
+
+  findFromNodeAndRemoveEdge(this);
+
 };
 
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function(cb) {
+  // var maxLength = this.edges.length;
+  // for (var i = 0; i < maxLength; i++) {
+  //   cb(this.edges[i].value);
+  // }
 };
 
 /*
