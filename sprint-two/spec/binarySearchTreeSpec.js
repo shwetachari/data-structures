@@ -47,6 +47,34 @@ describe('binarySearchTree', function() {
     expect(binarySearchTree.size).to.equal(3);
   });
 
+  it('should have a maxDepth property', function() {
+    expect(binarySearchTree.maxDepth).to.be.a('number');
+  });
+  
+  it('should adjust the maxDepth property when nodes are inserted', function() {
+    expect(binarySearchTree.maxDepth).to.equal(1);
+    binarySearchTree.insert(2);
+    expect(binarySearchTree.maxDepth).to.equal(2);
+    binarySearchTree.insert(3);
+    expect(binarySearchTree.maxDepth).to.equal(3);
+    binarySearchTree.insert(7);
+    expect(binarySearchTree.maxDepth).to.equal(3);
+  });
+
+  it('should have a minDepth property', function() {
+    expect(binarySearchTree.minDepth).to.be.a('number');
+  });
+  
+  it('should adjust the minDepth property when nodes are inserted', function() {
+    expect(binarySearchTree.minDepth).to.equal(1);
+    binarySearchTree.insert(2);
+    expect(binarySearchTree.minDepth).to.equal(1);
+    binarySearchTree.insert(3);
+    expect(binarySearchTree.minDepth).to.equal(1);
+    binarySearchTree.insert(7);
+    expect(binarySearchTree.minDepth).to.equal(2);
+  });
+
   it('should not add duplicate values in a tree', function() {
     binarySearchTree.insert(5);
     binarySearchTree.insert(5);
