@@ -36,4 +36,20 @@ describe('binarySearchTree', function() {
     binarySearchTree.depthFirstLog(func);
     expect(array).to.eql([5, 2, 3]);
   });
+  
+  it('should have a size property', function() {
+    expect(binarySearchTree.size).to.be.a('number');
+  });
+
+  it('should adjust the size property after inserting nodes', function() {
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(3);
+    expect(binarySearchTree.size).to.equal(3);
+  });
+
+  it('should not add duplicate values in a tree', function() {
+    binarySearchTree.insert(5);
+    binarySearchTree.insert(5);
+    expect(binarySearchTree.size).to.equal(1);
+  });
 });

@@ -3,6 +3,7 @@ var BinarySearchTree = function(value) {
   tree.value = value;
   tree.left = null;
   tree.right = null;
+  tree.size = 1;
   return tree;
 };
 
@@ -20,16 +21,19 @@ binaryTreeMethods.insert = function(value) {
     //recursive case 2: if newNode.value is less than node.value and node.right is not equal to null
       //call function(node.right)
   //return function(this)
+  var tree = this;
   var insertNode = function(node) {
     if (newNode.value < node.value) {
       if (node.left === null) {
         node.left = newNode;
+        tree.size++;
       } else {
         insertNode(node.left);
       }
     } else if (newNode.value > node.value) {
       if (node.right === null) {
         node.right = newNode;
+        tree.size++;
       } else {
         insertNode(node.right);
       }

@@ -3,11 +3,21 @@
 var HashTable = function() {
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
+  this._size = 0; //ratio ._size / ._limit is between 25% and 75%
 };
 //limitedArray.set(index, value)
 //limitedArray.get(index)
 
 HashTable.prototype.insert = function(k, v) {
+  if (this._size / this._limit > 0.75) {
+    //double the limit
+    //get new indexes for errthang
+  } else if (this._size / this._limit < 0.25) {
+    //half the limit
+    //get new indexes for errthang
+  }
+
+
   var index = getIndexBelowMaxForKey(k, this._limit);
   // make an array if there's nothing at that index: [[k, v]]
   // if at that index, there's an array
@@ -29,6 +39,7 @@ HashTable.prototype.insert = function(k, v) {
       this._storage.get(index).push([k, v]);
     }
   }
+
 };
 
 HashTable.prototype.retrieve = function(k) {
@@ -65,6 +76,9 @@ HashTable.prototype.remove = function(k) {
 
 /*
  * Complexity: What is the time complexity of the above functions?
+  .insert: Best Case and Ave Case: O(1), Worst Case: O(n)
+  .retrieve: Best Case and Ave Case: O(1), Worst Case: O(n)
+  .remove: Best Case and Ave Case: O(1), Worst Case: O(n)
  */
 
 
