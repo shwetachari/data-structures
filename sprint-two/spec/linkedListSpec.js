@@ -52,4 +52,26 @@ describe('linkedList', function() {
   });
 
   // add more tests here to test the functionality of linkedList
+
+  it('should have methods named "addToHead" and "removeTail"', function() {
+    expect(linkedList.addToHead).to.be.a('function');
+    expect(linkedList.removeTail).to.be.a('function');
+  });
+
+  //addToHead
+  it('should add a value and reassign list head when addToHead is called', function() {
+    linkedList.addToTail(4);
+    expect(linkedList.head.value).to.equal(4);
+    linkedList.addToHead(5);
+    expect(linkedList.head.previous === null).to.equal(true);
+    expect(linkedList.head.value).to.equal(5);
+  });
+  //removeTail
+  it('should reassign the list tail and remove the last node when removeTail is called', function() {
+    linkedList.addToTail(4);
+    linkedList.addToTail(5);
+    expect(linkedList.tail.value).to.equal(5);
+    expect(linkedList.removeTail()).to.equal(5);
+    expect(linkedList.tail.value).to.equal(4);
+  });
 });

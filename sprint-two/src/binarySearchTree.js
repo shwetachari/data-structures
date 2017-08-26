@@ -61,7 +61,7 @@ binaryTreeMethods.insert = function(value) {
     }
   };
   
-  this.maxDepth = Math.max(checkDepth(newNode, 1), this.maxDepth);
+  var currentMaxDepth = Math.max(checkDepth(newNode, 1), this.maxDepth);
 
   var checkMinDepth = function(rootNode, currentDepth) {
     // base case: when both .left and .right === null
@@ -86,9 +86,86 @@ binaryTreeMethods.insert = function(value) {
     }
   };
 
-  this.minDepth = checkMinDepth(this, 1);
-  //height ~ log(2(size) + 1)
+  var currentMinDepth = checkMinDepth(this, 1);
+  
+  //check if maxDepth > 2minDepth
+  //if true, start at newNode
+    // do to its parent
+      // check if child.value > grandparent.value
+        // parent.right = child
+        // parent.left = grandparent
+      // if grandparent.value > child.value
+        // parent.right = grandparent
+        // parent.left = child
+      // parent.parent = great grandparent (grandparent.parent)
+    // do to its grandparent
+      // grandparent.parent = parent
+      // set both children to null
+  var restructureTriplet = function(child) {
+    var parent = child.parent;
+    var grandparent = parent.parent;
+    var less = function() {
+      return [child, parent, grandparent].reduce(function(min, obj) {
+        return obj.value < min.value ? obj : min;
+      });
+    }();
+    var greater = function() {
+      return [child, parent, grandparent].reduce(function(max, obj) {
+        return obj.value > max.value ? obj : max;
+      });
+    }();
+    var mid = function() {
+      return [child, parent, grandparent].reduce(function(mid, obj) {
+        return obj.value !== less.value && obj.value !== greater.value ? obj : mid;
+      });
+    }();
+    // console.log('less: ' + less.value + ', mid: ' + mid.value + ', greater: ' + greater.value);
+    // set mid properties
+      // set mid.left = less
+      // set mid.right = greater
+      // set mid.parent = grandparent.parent
+    // set less properties
+      // set less.left and right = null
+      // set less.parent = mid
+    // set greater properties
+      // set greater.left and right = null
+      // set greater.parent = mid
+    
+    mid.left = less;
+    mid.right = greater;
+    mid.parent = grandparent.parent;
+
+    if (mid.value < grandparent.parent.value) {
+      grandparent.parent.left = mid;
+    } else {
+      grandparent.parent.right = mid;
+    }
+
+    less.left = null;
+    less.right = null;
+    less.parent = mid;
+
+    greater.left = null;
+    greater.right = null;
+    greater.parent = mid;
+
+    // console.log(tree);
+  };
+
+  if (currentMaxDepth > (2 * currentMinDepth) && this.size > 3) {
+    // console.log('max depth: ' + currentMaxDepth + ', min depth: ' + currentMinDepth);
+    restructureTriplet(newNode);
+    this.maxDepth = Math.max(checkDepth(newNode, 1), this.maxDepth);
+    this.minDepth = checkMinDepth(this, 1);
+  } else {
+    this.maxDepth = currentMaxDepth;
+    this.minDepth = currentMinDepth;
+  }
+
+  
 };
+
+
 
 binaryTreeMethods.contains = function(value) {
   // base case 0: is this our value (is value === node.value)

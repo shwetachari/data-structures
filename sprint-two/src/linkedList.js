@@ -11,6 +11,7 @@ var LinkedList = function() {
       list.head = newNode;
       list.tail = newNode;
     }
+    newNode.previous = list.tail;
     list.tail.next = newNode;
     list.tail = newNode;
     list.size++;
@@ -41,6 +42,33 @@ var LinkedList = function() {
     };
     return checkNext(list.head);
   };
+  
+  
+  list.addToHead = function(value) {
+    // newHead should point to prev head
+    // remove head tag from prev head
+    // make new node head
+    // prev head points back to new node (previous)
+    // list.size++;
+    var newHead = Node(value);
+    newHead.next = list.head;
+    list.head.previous = newHead;
+    list.head = newHead;
+    list.size++;
+  };
+
+  list.removeTail = function() {
+    // new tail should point to the previous one
+    // remove the tail tag from node being deleted --> make new tail
+    // point new tail to null
+    // list.size--;
+    // return value of removed node
+    var removedValue = list.tail.value;
+    list.tail = list.tail.previous;
+    list.tail.next = null;
+    list.size--;
+    return removedValue;
+  };
 
   return list;
 };
@@ -48,6 +76,7 @@ var LinkedList = function() {
 var Node = function(value) {
   var node = {};
 
+  node.previous = null;
   node.value = value;
   node.next = null;
 
@@ -59,4 +88,6 @@ var Node = function(value) {
   .addToTail = O(1)
   .removeHead = O(1)
   .contains = O(n)
+  .addToHead = O(1)
+  .removeTail = O(1)
  */

@@ -41,4 +41,25 @@ describe('tree', function() {
     expect(tree.contains(8)).to.equal(true);
   });
 
+  it('should have expected parent property for tree and nested children', function() {
+    expect(tree.parent).to.equal(null);
+    tree.addChild(5);
+    expect(tree.children[0].parent === null).to.equal(false);
+  });
+
+  it('should have a method named "removeFromParent"', function() {
+    expect(tree.removeFromParent).to.be.a('function');
+  });
+
+  it('should remove parent and children references when removeFromParent is called', function() {
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[0].addChild(7);
+    tree.children[1].addChild(8);
+    tree.children[1].addChild(9);
+    expect(tree.contains(8)).to.equal(true);
+    tree.removeFromParent(8);
+    expect(tree.contains(8)).to.equal(false);
+  });
+
 });

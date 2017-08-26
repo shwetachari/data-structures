@@ -75,6 +75,14 @@ describe('binarySearchTree', function() {
     expect(binarySearchTree.minDepth).to.equal(2);
   });
 
+  it('should restructure the tree if maxDepth is greater than twice the minDepth', function() {
+    binarySearchTree.insert(3);
+    expect(binarySearchTree.maxDepth).to.equal(2);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(1);
+    expect(binarySearchTree.maxDepth).to.equal(3);
+  });
+
   it('should not add duplicate values in a tree', function() {
     binarySearchTree.insert(5);
     binarySearchTree.insert(5);
