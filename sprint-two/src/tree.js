@@ -64,6 +64,28 @@ treeMethods.removeFromParent = function(value) {
   
 };
 
+//calling a callback function on all nodes in our tree
+treeMethods.traverse = function(cb) {
+
+  // cb(node.value)
+  // if node has children, iterate over children of our input node
+    // base case: when the input node doesn't have children
+    // if child has children
+      // call this recursive function on the child
+  
+  var traverseNodes = function(node) {
+    if (node.value !== undefined) {
+      cb(node.value);
+    }
+    if (node.children.length > 0) {
+      node.children.forEach(function(child) {
+        traverseNodes(child);
+      });
+    }
+  };
+  traverseNodes(this);
+
+};
 
 
 /*

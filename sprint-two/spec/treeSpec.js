@@ -62,4 +62,23 @@ describe('tree', function() {
     expect(tree.contains(8)).to.equal(false);
   });
 
+  it('should have a method named "traverse"', function() {
+    expect(tree.traverse).to.be.a('function');
+  });
+
+  it('should perform a callback on all values in the tree when traverse is called', function() {
+    var leafArray = [];    
+    var pushToArray = function(val) {
+      leafArray.push(val);
+    };
+    var expectedLeafArray = [5, 7, 6, 8, 9];
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[0].addChild(7);
+    tree.children[1].addChild(8);
+    tree.children[1].addChild(9);
+    tree.traverse(pushToArray);
+    expect(leafArray).to.eql(expectedLeafArray);
+  });
+
 });
